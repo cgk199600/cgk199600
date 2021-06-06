@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.ssm.dao.pca_areasMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.ssm.entity.pca_areas" >
+    <id column="area_id" property="area_id" jdbcType="VARCHAR" />
+    <result column="area_name" property="area_name" jdbcType="VARCHAR" />
+    <result column="city_id" property="city_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    area_id, area_name, city_id
+  </sql>
+  <select id="selectBycity_id" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pca_areas
+    where city_id = #{city_id,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

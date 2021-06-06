@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oracle.mapper.StuMapper" >
+  <resultMap id="BaseResultMap" type="com.oracle.pojo.Stu" >
+    <id column="stuId" property="stuId" jdbcType="INTEGER" />
+    <result column="stuName" property="stuName" jdbcType="VARCHAR" />
+    <result column="stuPwd" property="stuPwd" jdbcType="VARCHAR" />
+    <result column="stuSex" property="stuSex" jdbcType="VARCHAR" />
+    <result column="stuage" property="stuage" jdbcType="INTEGER" />
+    <result column="stuEmail" property="stuEmail" jdbcType="VARCHAR" />
+    <result column="stuBirthday" property="stuBirthday" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    stuId, stuName, stuPwd, stuSex, stuage, stuEmail, stuBirthday
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oracle.pojo.StuExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stu
+    where stuId = #{stuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from stu
+    where stuId = #{stuId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oracle.pojo.StuExample" >
+    delete from stu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oracle.pojo.Stu" >
+    insert into stu (stuId, stuName, stuPwd, 
+      stuSex, stuage, stuEmail, 
+      stuBirthday)
+    values (#{stuId,jdbcType=INTEGER}, #{stuName,jdbcType=VARCHAR}, #{stuPwd,jdbcType=VARCHAR}, 
+      #{stuSex,jdbcType=VARCHAR}, #{stuage,jdbcType=INTEGER}, #{stuEmail,jdbcType=VARCHAR}, 
+      #{stuBirthday,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oracle.pojo.Stu" >
+    insert into stu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stuId != null" >
+        stuId,
+      </if>
+      <if test="stuName != null" >
+        stuName,
+      </if>
+      <if test="stuPwd != null" >
+        stuPwd,
+      </if>
+      <if test="stuSex != null" >
+        stuSex,
+      </if>
+      <if test="stuage != null" >
+        stuage,
+      </if>
+      <if test="stuEmail != null" >
+        stuEmail,
+      </if>
+      <if test="stuBirthday != null" >
+        stuBirthday,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stuId != null" >
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuPwd != null" >
+        #{stuPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSex != null" >
+        #{stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stuage != null" >
+        #{stuage,jdbcType=INTEGER},
+      </if>
+      <if test="stuEmail != null" >
+        #{stuEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="stuBirthday != null" >
+        #{stuBirthday,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oracle.pojo.StuExample" resultType="java.lang.Integer" >
+    select count(*) from stu
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stu
+    <set >
+      <if test="record.stuId != null" >
+        stuId = #{record.stuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuName != null" >
+        stuName = #{record.stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuPwd != null" >
+        stuPwd = #{record.stuPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuSex != null" >
+        stuSex = #{record.stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuage != null" >
+        stuage = #{record.stuage,jdbcType=INTEGER},
+      </if>
+      <if test="record.stuEmail != null" >
+        stuEmail = #{record.stuEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuBirthday != null" >
+        stuBirthday = #{record.stuBirthday,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stu
+    set stuId = #{record.stuId,jdbcType=INTEGER},
+      stuName = #{record.stuName,jdbcType=VARCHAR},
+      stuPwd = #{record.stuPwd,jdbcType=VARCHAR},
+      stuSex = #{record.stuSex,jdbcType=VARCHAR},
+      stuage = #{record.stuage,jdbcType=INTEGER},
+      stuEmail = #{record.stuEmail,jdbcType=VARCHAR},
+      stuBirthday = #{record.stuBirthday,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oracle.pojo.Stu" >
+    update stu
+    <set >
+      <if test="stuName != null" >
+        stuName = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuPwd != null" >
+        stuPwd = #{stuPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSex != null" >
+        stuSex = #{stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stuage != null" >
+        stuage = #{stuage,jdbcType=INTEGER},
+      </if>
+      <if test="stuEmail != null" >
+        stuEmail = #{stuEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="stuBirthday != null" >
+        stuBirthday = #{stuBirthday,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where stuId = #{stuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oracle.pojo.Stu" >
+    update stu
+    set stuName = #{stuName,jdbcType=VARCHAR},
+      stuPwd = #{stuPwd,jdbcType=VARCHAR},
+      stuSex = #{stuSex,jdbcType=VARCHAR},
+      stuage = #{stuage,jdbcType=INTEGER},
+      stuEmail = #{stuEmail,jdbcType=VARCHAR},
+      stuBirthday = #{stuBirthday,jdbcType=TIMESTAMP}
+    where stuId = #{stuId,jdbcType=INTEGER}
+  </update>
+</mapper>

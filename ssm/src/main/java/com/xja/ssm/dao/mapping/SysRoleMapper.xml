@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.ssm.dao.SysRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.ssm.entity.SysRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rolename, status
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultType="com.xja.ssm.entity.SysRole" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--注意这里select是直接用实体类传入所以得用resultType  -->
+   <select id="selectByroleid" resultType="com.xja.ssm.entity.SysMenu" parameterType="java.lang.Integer" >
+    SELECT id,title FROM sys_menu WHERE id in(
+	select menuid from sys_r_m WHERE roleId=#{roleId}
+	)
+  </select>
+  <select id="selectList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where rolename=#{rolename}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xja.ssm.entity.SysRole" useGeneratedKeys="true" keyProperty="id"><!--useGeneratedKeys="true" 返回主键  keyProperty="id"返回的主键属性是ID-->
+    insert into sys_role (id, rolename, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xja.ssm.entity.SysRole" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rolename != null" >
+        rolename,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xja.ssm.entity.SysRole" >
+    update sys_role
+    <set >
+      <if test="rolename != null" >
+        rolename = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xja.ssm.entity.SysRole" >
+    update sys_role
+    set rolename = #{rolename,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

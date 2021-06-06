@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.ssm.dao.pca_provincesMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.ssm.entity.pca_provinces" >
+    <id column="province_id" property="province_id" jdbcType="VARCHAR" />
+    <result column="province_name" property="province_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    province_id, province_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pca_provinces
+    where province_id = #{province_id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectprovience" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+     from pca_provinces
+  </select>
+</mapper>

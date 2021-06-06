@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oracle.mapper.PhonesMapper" >
+  <resultMap id="BaseResultMap" type="com.oracle.pojo.Phones" >
+    <id column="phId" property="phId" jdbcType="INTEGER" />
+    <result column="phName" property="phName" jdbcType="VARCHAR" />
+    <result column="phPrice" property="phPrice" jdbcType="DECIMAL" />
+    <result column="phInfo" property="phInfo" jdbcType="VARCHAR" />
+    <result column="phImage" property="phImage" jdbcType="VARCHAR" />
+    <result column="phNum" property="phNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    phId, phName, phPrice, phInfo, phImage, phNum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oracle.pojo.PhonesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from phones
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from phones
+    where phId = #{phId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from phones
+    where phId = #{phId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oracle.pojo.PhonesExample" >
+    delete from phones
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oracle.pojo.Phones" >
+    insert into phones (phId, phName, phPrice, 
+      phInfo, phImage, phNum
+      )
+    values (#{phId,jdbcType=INTEGER}, #{phName,jdbcType=VARCHAR}, #{phPrice,jdbcType=DECIMAL}, 
+      #{phInfo,jdbcType=VARCHAR}, #{phImage,jdbcType=VARCHAR}, #{phNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.oracle.pojo.Phones" >
+    insert into phones
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="phId != null" >
+        phId,
+      </if>
+      <if test="phName != null" >
+        phName,
+      </if>
+      <if test="phPrice != null" >
+        phPrice,
+      </if>
+      <if test="phInfo != null" >
+        phInfo,
+      </if>
+      <if test="phImage != null" >
+        phImage,
+      </if>
+      <if test="phNum != null" >
+        phNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="phId != null" >
+        #{phId,jdbcType=INTEGER},
+      </if>
+      <if test="phName != null" >
+        #{phName,jdbcType=VARCHAR},
+      </if>
+      <if test="phPrice != null" >
+        #{phPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="phInfo != null" >
+        #{phInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="phImage != null" >
+        #{phImage,jdbcType=VARCHAR},
+      </if>
+      <if test="phNum != null" >
+        #{phNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oracle.pojo.PhonesExample" resultType="java.lang.Integer" >
+    select count(*) from phones
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update phones
+    <set >
+      <if test="record.phId != null" >
+        phId = #{record.phId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phName != null" >
+        phName = #{record.phName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phPrice != null" >
+        phPrice = #{record.phPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.phInfo != null" >
+        phInfo = #{record.phInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phImage != null" >
+        phImage = #{record.phImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phNum != null" >
+        phNum = #{record.phNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update phones
+    set phId = #{record.phId,jdbcType=INTEGER},
+      phName = #{record.phName,jdbcType=VARCHAR},
+      phPrice = #{record.phPrice,jdbcType=DECIMAL},
+      phInfo = #{record.phInfo,jdbcType=VARCHAR},
+      phImage = #{record.phImage,jdbcType=VARCHAR},
+      phNum = #{record.phNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oracle.pojo.Phones" >
+    update phones
+    <set >
+      <if test="phName != null" >
+        phName = #{phName,jdbcType=VARCHAR},
+      </if>
+      <if test="phPrice != null" >
+        phPrice = #{phPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="phInfo != null" >
+        phInfo = #{phInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="phImage != null" >
+        phImage = #{phImage,jdbcType=VARCHAR},
+      </if>
+      <if test="phNum != null" >
+        phNum = #{phNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where phId = #{phId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oracle.pojo.Phones" >
+    update phones
+    set phName = #{phName,jdbcType=VARCHAR},
+      phPrice = #{phPrice,jdbcType=DECIMAL},
+      phInfo = #{phInfo,jdbcType=VARCHAR},
+      phImage = #{phImage,jdbcType=VARCHAR},
+      phNum = #{phNum,jdbcType=INTEGER}
+    where phId = #{phId,jdbcType=INTEGER}
+  </update>
+</mapper>

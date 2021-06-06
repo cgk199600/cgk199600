@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.ssm.dao.SysRMMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.ssm.entity.SysRM" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
+    <result column="menuId" property="menuId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, roleId, menuId, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_r_m
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_r_m
+    where roleId = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xja.ssm.entity.SysRM" >
+    insert into sys_r_m (id, roleId, menuId, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xja.ssm.entity.SysRM" >
+    insert into sys_r_m
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleId != null" >
+        roleId,
+      </if>
+      <if test="menuId != null" >
+        menuId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xja.ssm.entity.SysRM" >
+    update sys_r_m
+    <set >
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null" >
+        menuId = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xja.ssm.entity.SysRM" >
+    update sys_r_m
+    set roleId = #{roleId,jdbcType=INTEGER},
+      menuId = #{menuId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

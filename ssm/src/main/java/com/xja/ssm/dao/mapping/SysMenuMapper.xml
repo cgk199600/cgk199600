@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xja.ssm.dao.SysMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.xja.ssm.entity.SysMenu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="href" property="href" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+     <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, icon, href, status, pid, remark
+  </sql>
+  <!--通过自联结查询查询所有的pid与ID相同的  -->
+  <select id="selectByPrimaryKey" resultType="com.xja.ssm.entity.SysMenu" parameterType="java.lang.Integer" >
+    select 
+    a.id,a.title,a.href,a.icon,a.status,a.pid,b.title as pName
+    from sys_menu a left join sys_menu b
+    on a.pid=b.id
+    where a.id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectUserByroleId" resultType="java.util.Map" parameterType="java.lang.Integer">
+  SELECT m.* from sys_menu m WHERE m.id in(
+	SELECT rm.menuId from sys_r_m rm where rm.roleId=#{roleId}
+	)
+	and m.status=0 and m.pid=0
+  </select>
+  <select id="selectmenuBypid" resultType="java.util.Map" parameterType="java.lang.Integer">
+  SELECT * from sys_menu WHERE pid=#{pid} AND status=0
+  </select>
+  <select id="selectTreeObj" resultType="com.xja.ssm.resultObj.ZtreeNodes" parameterType="java.lang.Integer">
+  SELECT t1.id,t1.title,t1.pid,
+		(case WHEN t2.status is not NULL THEN '0' else '1' end)as checked
+		FROM sys_menu t1 LEFT JOIN
+		(select rm.menuId,rm.status FROM sys_r_m rm LEFT JOIN sys_menu m1 on rm.menuId=m1.id
+	 WHERE rm.roleId=#{roleId}) as t2
+	 on t1.id=t2.menuId	
+  </select>
+  <select id="selectmenuListbypid" resultMap="BaseResultMap" parameterType="com.xja.ssm.entity.SysMenu" ><!--传入类型为sysmenu实体类  -->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    <where>
+    <if test="pid!= null">
+    pid=#{pid}
+    </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.xja.ssm.entity.SysMenu" >
+    insert into sys_menu (id, title, icon, 
+      href, status, pid,remark)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{href,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xja.ssm.entity.SysMenu" >
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="href != null" >
+        href,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null" >
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xja.ssm.entity.SysMenu" >
+    update sys_menu
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null" >
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xja.ssm.entity.SysMenu" >
+    update sys_menu
+    set title = #{title,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      pid = #{pid,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
