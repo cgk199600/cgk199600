@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+<!-- 本地电脑的  mysql驱动位置  一定需要加  jar名称 -->
+	<classPathEntry location="D:\mysql-connector-java-5.1.18-bin.jar" />
+	<context id="context1" defaultModelType="flat">
+		
+		<!-- PO序列化 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+		</plugin>
+
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+	
+			<!-- 数据库的连接信息 -->
+		  <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+		          connectionURL="jdbc:mysql://localhost:3306/demo" 
+		          userId="root" 
+		          password=""> 
+			</jdbcConnection>
+			
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="true"/>
+		</javaTypeResolver> 
+
+		<!--生成Model类存放位置  targetPackage="实体包位置"-->
+		<javaModelGenerator targetPackage="com.oracle.pojo"
+			targetProject="ssm-0416">
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!--生成映射文件存放位置 -->
+		<sqlMapGenerator targetPackage="com.oracle.mapper"
+			targetProject="ssm-0416">
+			<property name="trimStrings" value="true" />
+		</sqlMapGenerator>
+
+		<!--生成Dao类存放位置 -->
+		<javaClientGenerator targetPackage="com.oracle.mapper"
+			targetProject="ssm-0416" type="XMLMAPPER" />
+
+		<!--生成对应表及类名-->
+		<table schema="demo"  tableName="user" domainObjectName="User"  enableCountByExample="true" enableUpdateByExample="true"
+			enableDeleteByExample="true" enableSelectByExample="true"
+			selectByExampleQueryId="true">
+			<property name="useActualColumnNames" value="true" />
+		</table> 
+  
+	</context>
+</generatorConfiguration>
